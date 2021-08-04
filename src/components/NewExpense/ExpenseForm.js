@@ -4,7 +4,7 @@ import './ExpenseForm.css';
 
 const ExpenseForm = (props) => {
 
-    // const [dateExp,setDatexp] = useState('');
+    const [showForm,setShowForm] = useState(0);
 
     const [inputData,setInputs] = useState({
         title: '',
@@ -28,7 +28,7 @@ const ExpenseForm = (props) => {
     const amountHandler = (event) =>{
         setInputs({
             ...inputData,
-            amount: event.target.value,
+            amount: +event.target.value,
         });
     }
     const dateHandler = (event) =>{
@@ -60,11 +60,24 @@ const ExpenseForm = (props) => {
                 date: '',
             }
         });
+        toggleForm();
         // setInputs({
         //     title: '',
         //     amount: '',
         //     date: '',
         // });
+    }
+
+    const toggleForm = () => {
+        setShowForm((prevState) => {
+            return !prevState;
+        });
+    }
+
+    if(!showForm){
+        return <div className="new-expense__actions">
+                <button onClick={toggleForm} type="button">Add new expense</button>
+            </div>
     }
 
     return <form onSubmit={submitHandler}>
@@ -82,12 +95,12 @@ const ExpenseForm = (props) => {
                 <input 
                     type="date" 
                     value={inputData.date}
-                    // value={dateExp}
                     min="01-01-2021" 
                     max="31-12-2022"
                     onChange={dateHandler} />
             </div>
             <div className="new-expense__actions">
+                <button type="button" onClick={toggleForm}>Cancel</button>
                 <button type="submit">Add expense</button>
             </div>
         </div>
